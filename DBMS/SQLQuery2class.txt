@@ -1,0 +1,71 @@
+create database alokraj;
+use alokraj;
+create table Student(StudentId INT,Name VARCHAR(100),Address VARCHAR(200),Phone NUMERIC(10,0),Email VARCHAR(50),Dateofbirth Date,Dateofadmisson Date,Dateofpassing Date);
+select * from Student;
+alter table Student Add presentadd VARCHAR(200),sub VARCHAR(30);
+create table Department (DeptId INT,Deptname VARCHAR(100));
+create table Cource (CourceId VARCHAR(200),courcename VARCHAR(100));
+create table Batch (BatchId INT,Batchname VARCHAR(100));
+create table Studentstatus (StatusId INT,statusDesk VARCHAR(100));
+alter table Student Add DeptId INT,CourceId VARCHAR(200),BatchId INT,StatusId INT;
+drop table Cource;
+insert into Department values(101,'CSE');
+insert into Department values(102,'CSEAI');
+insert into Department values(103,'ECE');
+insert into Department values(104,'MEC');
+SELECT  *from Department
+insert into Cource values('CSE22','B.tech');
+insert into Cource values('CSE25','M.tech');
+insert into Cource values('IT04','Bca');
+insert into Cource values('BCA30','Bio.tech');
+
+insert into Batch values(201,'CSEAI 3B');
+insert into Batch values(202,'CSEAI 2B');
+insert into Batch values(203,'CSEAI 3A');
+insert into Batch values(204,'CSE 3B');
+insert into Batch values(205,'CIVIL');
+
+insert into Studentstatus values(1,'Active');
+insert into Studentstatus values(2,'left');
+insert into Studentstatus values(3,'online');
+insert into Studentstatus values(4,'completed');
+select *from Studentstatus
+
+insert into Student values(3123,'Alok','kolkata',7979825252,'alokmail.com','20010811','20211108','20251012','kolkata','DBMS',101,'CSE22',201,1)
+insert into Student values(3124,'SACHIN','Dhanbad',7979825253,'blokmail.com','20010911','20211109','20261012','Dhanbad','DBMS',102,'NULL',202,2)
+insert into Student values(3125,'Vatsal','Dhanbad',7979825254,'clokmail.com','20011011','20211110','20271012','Dhanbad','DBMS',103,'IT04',203,4)
+insert into Student values(3127,'sayan','Ranchi',7979825255,'dlokmail.com','20021111','20211111','20251012','Giridih','DBMS',104,'BCA30',204,3)
+insert into Student values(3190,'Aman','Giridih',7979825256,'elokmail.com','20020611','20211112','20251012','Giridih','DBMS',105,'CS22',205,2)
+insert into Student values(3145,'Tuhin','DHanbad',7979825257,'flokmail.com','20020811','20211113','20250712','kolkata','DBMS',104,'NULL',203,5)
+insert into Student values(3151,'Abhay','Giridih',7979825258,'glokmail.com','20020711','20211114','20251012','kolkata','DBMS',105,'CSE22',203,3)
+insert into Student values(3156,'Prem','Asansol',7979825259,'hlokmail.com','20020511','20211115','20250812','kolkata','DBMS',101,'NULL',201,4)
+insert into Student values(3150,'Shiv','kharagpur',7979825260,'ilokmail.com','20020411','20211116','20271012','kharagpur','DBMS',104,'BCA30',203,2)
+insert into Student values(3100,'Archit','kolkata',7979825261,'jlokmail.com','20020311','20211117','20250112','kharagpur','DBMS',102,'CSE25',204,5)
+
+SELECT Student.Name from Student inner join Department on Student.DeptId=Department.DeptId;
+select * from Department;
+
+/* 12  dought*/
+SELECT  *from Student left join Cource on Student.CourceId=Cource.CourceId where Student.CourceId='NULL';
+
+SELECT  *from Student right join Cource on Student.CourceId=Cource.CourceId
+
+/* 13  dought*/
+SELECT  *from Student left join Studentstatus on Student.StatusId=Studentstatus.StatusId  where Studentstatus.statusDesk=
+
+/* 14*/
+SELECT  *from Student inner join Department on Student.DeptId=Department.DeptId inner join Batch on Student.BatchId=Batch.BatchId 
+ inner join Studentstatus on Student.StatusId=Studentstatus.StatusId   where Department.Deptname ='CSE' and Batch.Batchname='CSEAI 3B' and
+ Studentstatus.statusDesk='completed';
+
+
+drop table Student
+TRUNCATE TABLE STUDENT
+drop table Department
+drop table Cource 
+drop table Batch
+drop table Studentstatus
+
+/*3.3*/
+SELECT  Department.DeptId,Department.Deptname,COUNT(Student.studentId) as total from Student inner join Department on Student.DeptId=Department.DeptId GROUP BY Department.Deptname,Department.DeptId  having count(Student.studentId)>2 
+

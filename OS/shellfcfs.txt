@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# Define an array to store process burst times
+declare -a burst_times=(5 3 8 6)
+
+# Initialize variables
+total_processes=${#burst_times[@]}
+waiting_time=0
+turnaround_time=0
+
+echo "Process   Burst Time   Waiting Time   Turnaround Time"
+
+# Loop through each process
+for ((i=0; i<$total_processes; i++)); do
+    # Calculate waiting time for current process
+    turnaround_time=$(($turnaround_time + ${burst_times[$i]}))
+    waiting_time=$(($waiting_time + $turnaround_time - ${burst_times[$i]}))
+
+    # Display process details
+    echo "   P$i           ${burst_times[$i]}               $waiting_time                $turnaround_time"
+done
+
+# Calculate average waiting time
+average_waiting_time=$(echo "scale=2; $waiting_time / $total_processes" | bc)
+
+echo -e "\nAverage Waiting Time: $average_waiting_time"

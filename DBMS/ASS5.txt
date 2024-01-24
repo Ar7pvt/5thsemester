@@ -1,0 +1,68 @@
+    DROP TABLE Student;
+    DROP TABLE Department;
+
+CREATE TABLE Student (
+    StudentId INT,
+    Name VARCHAR(100),
+    Address VARCHAR(200),
+    Phone NUMERIC(10, 0),
+    Email VARCHAR(50),
+    DateOfBirth DATE,
+    DateOfAdmission DATE,
+    DateOfPassing DATE,
+    DeptId INT,
+    CourseId INT,
+    BatchId INT,
+    StatusId INT
+);
+CREATE TABLE Department (
+    DeptId INT,
+    DeptName VARCHAR(50)
+);
+CREATE CLUSTERED INDEX CI_Student_StudentId ON Student(StudentId);
+CREATE UNIQUE CLUSTERED INDEX CI_Department_DeptId ON Department(DeptId);
+CREATE NONCLUSTERED INDEX IX_Student_Name_Address ON Student(Name, Address)
+WHERE Address = 'Kolkata';
+
+DROP INDEX IF EXISTS IX_Student_Name_Address ON Student;
+CREATE NONCLUSTERED INDEX IX_Student_Name_Address
+ON Student(Name, Address)
+INCLUDE (Email, Phone)
+WHERE Address = 'Kolkata';
+
+
+INSERT INTO Student VALUES
+    (1, 'John Doe', '123 Main St', 1234567890, 'john@example.com', '2000-01-01', '2022-08-15', NULL, 101, 201, 303, 401),
+	(22, 'Student 2', 'Address 2', 2222222222, 'student2@example.com', '2001-02-02', '2022-08-15', NULL, 102, 202, 302, 402),
+    (23, 'Student 3', 'Address 3', 3333333333, 'student3@example.com', '2002-03-03', '2022-08-15', NULL, 103, 203, 303, 403),
+    (24, 'Student 4', 'Address 4', 4444444444, 'student4@example.com', '2003-04-04', '2022-08-15', NULL, 104, 204, 304, 404),
+    (25, 'Student 5', 'Address 5', 5555555555, 'student5@example.com', '2004-05-05', '2022-08-15', NULL, 101, 201, 301, 401),
+    (26, 'Student 6', 'Address 6', 6666666666, 'student6@example.com', '2005-06-06', '2022-08-15', NULL, 102, 202, 302, 402),
+    (27, 'Student 7', 'Address 7', 7777777777, 'student7@example.com', '2006-07-07', '2022-08-15', NULL, 103, 203, 303, 403),
+    (28, 'Student 8', 'Address 8', 8888888888, 'student8@example.com', '2007-08-08', '2022-08-15', NULL, 104, 204, 304, 404),
+    (29, 'Student 9', 'Address 9', 9999999999, 'student9@example.com', '2008-09-09', '2022-08-15', NULL, 101, 201, 301, 401),
+    (30, 'Student 10', 'Address 10', 1010101010, 'student10@example.com', '2009-10-10', '2022-08-15', NULL, 102, 202, 302, 402);
+INSERT INTO Department (DeptId, DeptName)
+VALUES
+    (101, 'Dept 101'),
+    (102, 'Dept 102'),
+    (103, 'Dept 103'),
+	(104, 'Dept 104'),
+    (105, 'Dept 105');
+
+CREATE VIEW dbo.vStudentDept
+WITH SCHEMABINDING
+AS
+SELECT s.StudentId, s.Name AS StudentName, d.DeptName
+FROM dbo.Student s
+JOIN dbo.Department d ON s.DeptId = d.DeptId;
+
+SELECT StudentName, DeptName
+FROM dbo.vStudentDept
+WHERE DeptName = 'Dept 104';
+
+CREATE UNIQUE CLUSTERED INDEX CI_vStudentDept_StudentId ON dbo.vStudentDept(StudentId);
+
+CREATE NONCLUSTERED INDEX IX_vStudentDept_DeptName ON dbo.vStudentDept(DeptName);
+
+	

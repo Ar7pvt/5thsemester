@@ -1,0 +1,136 @@
+use alokraj;
+/*  1*/
+Truncate table Student
+Truncate table Department
+Truncate table Course 
+Truncate table Batch
+Truncate table Studentstatus
+
+/*drop table Department
+
+CREATE TABLE Department ( DeptId INT PRIMARY KEY, DeptName VARCHAR(50) );
+CREATE TABLE Course ( CourseId INT PRIMARY KEY, CourseName VARCHAR(50) );
+
+CREATE TABLE Batch ( BatchId INT PRIMARY KEY, BatchName VARCHAR(50) );
+
+CREATE TABLE StudentStatus ( StatusId INT PRIMARY KEY, StatusDesc VARCHAR(50) );
+*/
+select *from Department
+select *from Course
+select*from Batch
+select *from StudentStatus
+select *from Student
+
+/*  2 */
+alter table student DROP FOREIGN KEY FK_DeptId;
+alter table student
+add constraint FK_DeptId Foreign key (DeptId)
+references Department(DeptId)
+On Delete Cascade;
+
+alter table student
+ add constraint FK_CourseId Foreign key (CourseId)
+ references Course(CourseId)
+ On UPDATE SET NULL;
+
+alter table student
+add constraint FK_BatchId Foreign key (BatchId)
+references Batch(BatchId);
+
+alter table student
+add constraint FK_StatusId Foreign key (StatusId)
+references StudentStatus(StatusId);
+
+/*  3*/
+INSERT INTO Department (DeptId, DeptName)
+VALUES
+    (101, 'Dept 101'),
+    (102, 'Dept 102'),
+    (103, 'Dept 103'),
+    (104, 'Dept 104');
+
+
+INSERT INTO Course (CourseId, CourseName)
+VALUES
+    (201, 'Course 201'),
+    (202, 'Course 202'),
+    (203, 'Course 203'),
+    (204, 'Course 204');
+
+
+INSERT INTO Batch (BatchId, BatchName)
+VALUES
+    (301, 'Batch 301'),
+    (302, 'Batch 302'),
+    (303, 'Batch 303'),
+    (304, 'Batch 304');
+
+
+INSERT INTO StudentStatus (StatusId, StatusDesc)
+VALUES
+    (401, 'Status 401'),
+    (402, 'Status 402'),
+    (403, 'Status 403'),
+    (404, 'Status 404');
+/*  4*/
+INSERT INTO Student (StudentId, Name, Address, Phone, Email, DateOfBirth, DateOfAdmission, DateOfPassing, DeptId, CourseId, BatchId, StatusId, AadharId, studenttype)
+VALUES
+    (21, 'Student 1', 'Address 1', 1111111111, 'student1@example.com', '2000-01-01', '2022-08-15', NULL, 101, 201, 301, 401, 1234567890123456, 'R'),
+    (22, 'Student 2', 'Address 2', 2222222222, 'student2@example.com', '2001-02-02', '2022-08-15', NULL, 102, 202, 302, 402, 2345678901234567, 'P'),
+    (23, 'Student 3', 'Address 3', 3333333333, 'student3@example.com', '2002-03-03', '2022-08-15', NULL, 103, 203, 303, 403, 3456789012345678, 'C'),
+    (24, 'Student 4', 'Address 4', 4444444444, 'student4@example.com', '2003-04-04', '2022-08-15', NULL, 104, 204, 304, 404, 4567890123456789, 'R'),
+    (25, 'Student 5', 'Address 5', 5555555555, 'student5@example.com', '2004-05-05', '2022-08-15', NULL, 101, 201, 301, 401, 5678901234567890, 'P'),
+    (26, 'Student 6', 'Address 6', 6666666666, 'student6@example.com', '2005-06-06', '2022-08-15', NULL, 102, 202, 302, 402, 6789012345678901, 'C'),
+    (27, 'Student 7', 'Address 7', 7777777777, 'student7@example.com', '2006-07-07', '2022-08-15', NULL, 103, 203, 303, 403, 7890123456789012, 'R'),
+    (28, 'Student 8', 'Address 8', 8888888888, 'student8@example.com', '2007-08-08', '2022-08-15', NULL, 104, 204, 304, 404, 8901234567890123, 'P'),
+    (29, 'Student 9', 'Address 9', 9999999999, 'student9@example.com', '2008-09-09', '2022-08-15', NULL, 101, 201, 301, 401, 9012345678901234, 'C'),
+    (30, 'Student 10', 'Address 10', 1010101010, 'student10@example.com', '2009-10-10', '2022-08-15', NULL, 102, 202, 302, 402, 1234012345678901, 'R');
+
+SELECT d.*, s.*
+FROM Department d
+INNER JOIN Student s ON d.DeptId = s.DeptId
+WHERE d.DeptId = 101;
+/* 5*/
+DELETE FROM Department WHERE DeptId = 101;
+
+
+SELECT d.*, s.*
+FROM Department d
+INNER JOIN Student s ON d.DeptId = s.DeptId
+WHERE d.DeptId = 101;
+
+SELECT c.*, s.*
+FROM Course c
+INNER JOIN Student s ON c.CourseId = s.CourseId
+WHERE c.CourseId = 201;
+
+
+UPDATE Course
+SET CourseId = 210
+WHERE CourseId = 201;
+
+
+SELECT c.*, s.*
+FROM Course c
+INNER JOIN Student s ON c.CourseId = s.CourseId
+WHERE c.CourseId = 210;
+
+SELECT b.*, s.*
+FROM Batch b
+INNER JOIN Student s ON b.BatchId = s.BatchId
+WHERE b.BatchId = 301;
+
+
+DELETE FROM Batch WHERE BatchId = 301;
+
+
+SELECT b.*, s.*
+FROM Batch b
+INNER JOIN Student s ON b.BatchId = s.BatchId
+WHERE b.BatchId = 301;
+
+select * from Student ;
+
+DROP TABLE Course
+DROP TABLE Student
+ALTER TABLE Student DROP CONSTRAINT StudentId;

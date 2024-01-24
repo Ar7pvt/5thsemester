@@ -1,0 +1,61 @@
+
+
+--1. Create following tables:
+--a. Department (DeptId, DeptName)
+--b. Student (StudentId, StudentName, DeptName)
+--c. Faculty (facultyId, facultyname, deptid)
+--d. Subject (subjectId, subjectname, facultyId) 
+
+Create Table Department(DeptId INT,DeptName Varchar(100));
+Create Table Student(StudentId INT,StudentName Varchar(100),DeptName Varchar(100));
+Create Table Faculty(FacultyId INT,FacultyName Varchar(100),DeptId INT);
+Create Table Subject(SubjectId INT,SubjectName Varchar(100),FacultyId INT);
+
+--2. Insert suitable records in the above created tables
+
+insert into Department values (1, 'CSBS'), (2, 'CSE'), (3, 'ECE'), (4, 'IT');
+insert into Student values (1, 'Tauquir', 'CSBS'), (2, 'Ripan', 'CSBS'), (3, 'Soumik', 'CSE'), (4,'Aamir', 'ECE');
+insert into Faculty values (1, 'Abhishek', 1), (2, 'Arnab', 2), (3, 'Nirmal', 3), (4, 'Jayanta', 4);
+insert into Subject values (1, 'DBMS', 1), (2, 'Opetrating System', 2), (3, 'Operational Research',3), (4, 'Software Engineering', 4);
+
+--3. Create a stored procedure named usp_getStudentData. It should have an input
+   --parameter for deptName and output parameter as student count. The output
+   --parameter should be populated with the number of students in the department as sent
+   --as the deptName parameter.
+
+create procedure usp_getStudentData
+@DeptName varchar(100),
+@StudentCount INT Output
+As
+Begin
+Select count(Student.DeptName) from Student , Department where Department.DeptName = Student.DeptName and Student.DeptName=@DeptName
+End
+
+Declare @count INT
+Exec usp_getStudentData 'CSBS', @count output
+print @count
+
+--Alter usp_getStudentData with additional input/output parameters to retrieve the details of the faculties of CSE department who teaches DBMS.
+
+alter procedure usp_getStudentData
+@department varchar(100),
+@subject varchar(100)
+as
+Begin 
+select f.FacultyId,f.FacultyName,f.DeptId from Department as d,Faculty as f ,Subject as s where d.DeptId = f.FacultyId and f.FacultyId =  s.SubjectId and DeptName = @department and SubjectName = @subject
+End
+
+usp_getStudentData 'CSBS' , 'DBMS'
+
+
+--Encrypt the procedure usp_getStudentData and try to alter the procedure input parameters with default input parameter values.
+
+alter procedure usp_getStudentData 
+@department varchar(100) with encryption
+as
+Begin
+ select s.StudentId , s.StudentName ,s.DeptName from Department as d , Student as s where d.DeptName = s.DeptName and d.DeptName = @department
+ End
+
+ usp_getStudentData 'ECE'
+ sp_helpindex usp_getStudentData

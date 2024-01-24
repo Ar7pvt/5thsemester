@@ -1,0 +1,54 @@
+CREATE DATABASE University
+USE University;
+CREATE TABLE Student(
+ StudentId INT,
+ Name VARCHAR(200),
+ Address VARCHAR(200),
+ Phone NUMERIC(10,0),
+ Email  VARCHAR(100),
+ DateOfBirth DATE,
+ DateOfAdmissio DATE,
+ DateOfPassing DATE,
+ DeptName VARCHAR(50),
+ CourseName VARCHAR(50),
+ BatchName VARCHAR(50),
+ StudentStatus VARCHAR(100)
+);
+INSERT INTO Student VALUES 
+(3140,'Sachin','Kolkata',7004701165,'sachin@gmail.com','2002-05-07','2021-11-22','2025-07-08','CSE','Btech','BCSA_AI','Active');
+INSERT INTO Student VALUES 
+(3141,'Vatsal','Kolkata',7004701161,'Vatsal@gmail.com','2002-05-01','2021-11-22','2025-07-08','CSE','Btech','BCSA_AI','Active');
+INSERT INTO Student VALUES 
+(3142,'ALOK','Kolkata',7004701166,'alok@gmail.com','2002-05-02','2021-11-22','2025-07-08','EE','Btech','BEE','Active');
+INSERT INTO Student VALUES 
+(3143,'Aman','Kolkata',7004701167,'Aman@gmail.com','2002-05-03','2021-11-22','2025-07-08','CSE','Btech','BCSA_AI','Active');
+INSERT INTO Student VALUES 
+(3144,'PREM','Kolkata',7004701168,'prem@gmail.com','2002-05-04','2021-11-22','2025-07-08','BIO','Btech','BBIO','Active');
+INSERT INTO Student VALUES 
+(3145,'Sanu','Kolkata',7004701169,'Sanu@gmail.com','2002-05-05','2021-11-22','2025-07-08','ECE','Btech','BS_ECE','Active');
+INSERT INTO Student VALUES 
+(3146,'ARCHIT','Kolkata',7004701160,'archi@gmail.com','2002-05-06','2021-11-22','2025-07-08','CSE','Btech','BCSA_AI','Active');
+INSERT INTO Student VALUES 
+(3147,'SHIV','Kolkata',7004701161,'shiv@gmail.com','2002-05-08','2021-11-22','2025-07-08','IT','Btech','BCS_IT','Active');
+INSERT INTO Student VALUES 
+(3148,'Jasmine','Kolkata',7004701162,'Jasmine@gmail.com','2002-05-09','2021-11-22','2025-07-08','CSE','Btech','BCSA_AI','Active');
+INSERT INTO Student VALUES 
+(3149,'SAYAN','Kolkata',7004701163,'sayan@gmail.com','2002-08-07','2021-11-22','2025-07-08','ECE','Btech','BS_ECE','Active');
+
+UPDATE Student SET "StudentStatus"='complete' where BatchName='BCSA_AI';
+
+UPDATE Student SET "StudentStatus"='complete' WHERE StudentId=3140;
+UPDATE Student SET "StudentStatus"='complete' WHERE StudentId=3141;
+UPDATE Student SET "StudentStatus"='complete' WHERE StudentId=3143;
+UPDATE Student SET "StudentStatus"='complete' WHERE StudentId=3146;
+UPDATE Student SET "StudentStatus"='complete' WHERE StudentId=3148;
+
+DELETE FROM Student WHERE DeptName='ECE'
+
+SELECT *FROM Student;
+
+SELECT *FROM Student WHERE StudentStatus='Active';
+
+TRUNCATE TABLE Student;
+
+DROP TABLE Student;

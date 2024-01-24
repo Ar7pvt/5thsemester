@@ -1,0 +1,51 @@
+use Dipanjan;
+create table movies
+(Title VARCHAR(20),
+Director VARCHAR(20),
+myear INT,
+rating float
+);
+select * from movies;
+insert into movies values('Fargo','coen',1996,8.2);
+insert into movies values('Raising arizona','coen',1987,7.6);
+insert into movies values('spiderman','raimi',2002,7.4);
+insert into movies values('wonder boys','hanson',2000,7.6);
+
+create table actors(Actor varchar(20),ayear int);
+insert into actors values('cage',1964);
+insert into actors values('hanks',1956);
+insert into actors values('maguire',1975);
+insert into actors values('m.c dormand',1957);
+
+create table director(director varchar(20),dyear int);
+insert into director values('coen',1954);
+insert into director values('hanson',1945);
+insert into director values('raimi',1959);
+
+create table acts(Title varchar(20),Actor varchar(20));
+insert into acts values('Raising arizona','cage');
+insert into acts values('spiderman','maguire');
+insert into acts values('wonder boys','maguire');
+insert into acts values('Fargo','m.c dormand');
+insert into acts values('Raising arizona','m.c dormand');
+insert into acts values('wonder boys','m.c dormand');
+
+
+select * 
+from movies
+where myear>1997;
+select *
+from movies 
+where Director='hanson' 
+and myear >1997;
+select Title,rating from movies;
+
+select Actor 
+from actors 
+union select director from director;
+
+select movies.Title
+from movies 
+inner join acts on movies.Title=acts.Title
+where movies.Director='coen'
+and acts.Actor='m.c dormand';

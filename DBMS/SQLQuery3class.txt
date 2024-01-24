@@ -1,0 +1,121 @@
+use alokraj;
+select *from Student;
+
+/*select StatusId from Studentstatus  where StatusDesk='Active' */
+/* 01*/
+select *from Studentstatus
+
+select *from Student where StatusId in (select StatusId from Studentstatus where statusDesk='Active') order by StudentId
+
+/* 02*/
+select *into Student_copy from student where Deptid in(Select DeptId from Department where Deptname='CSE' )
+select *from Student_copy
+truncate table Student_copy
+drop table Student_copy
+
+/* 03*/
+/*
+SELECT  *from Student inner join Department on Student.DeptId=Department.DeptId
+select Department.Deptname, count(Student.StudentId) as StudentCount from Department inner join Student on Department.DeptId=Student.DeptId
+GROUP BY Deptname
+
+SELECT  Department.DeptId,Department.Deptname,COUNT(Student.studentId) from Student inner join Department on Student.DeptId=Department.DeptId GROUP BY Department.Deptname,Department.DeptId
+select * from Department */
+
+
+SELECT  Department.DeptId,Department.Deptname,COUNT(Student.studentId) as total from Student inner join Department on Student.DeptId=Department.DeptId 
+  GROUP BY Department.Deptname,Department.DeptId  having count(Student.studentId)>2 
+
+/* 04*/
+insert into Student values(4001,'Abhay','Giridih',7979825252,'abhaymail.com','20010811','20211108','20251012','kolkata','DBMS',101,'CSE22',201,1)
+insert into Student_copy values(4002,'Akshay','kolkata',7979825252,'akshaymail.com','20010811','20211108','20251012','kolkata','DBMS',101,'CSE22',201,1)
+
+select *from Student_copy;
+
+
+/* 05  details which are not present in Student copy */
+select *from Student where StudentId NOT IN (select StudentId from Student_copy) 
+
+
+/* 06*/
+drop table Student
+drop table Department
+drop table Course 
+drop table Batch
+drop table Studentstatus
+/* 07*/
+CREATE TABLE Student (
+    StudentId INT PRIMARY KEY NOT NULL,
+    Name VARCHAR(100),
+    Address VARCHAR(200),
+    Phone NUMERIC(10, 0),
+    Email VARCHAR(50),
+    DateOfBirth DATE,
+    DateOfAdmission DATE,
+    DateOfPassing DATE,
+    PresentAddress VARCHAR(200),
+    DeptId INT,
+    CourseId INT,
+    BatchId INT,
+    StatusId INT,
+    AadharId NUMERIC(16, 0) NOT NULL UNIQUE,
+);
+select * from Student;
+drop table Student
+
+/* 08*/
+CREATE TABLE Department ( DeptId INT PRIMARY KEY, DeptName VARCHAR(50) );
+CREATE TABLE Course ( CourseId INT PRIMARY KEY, CourseName VARCHAR(50) );
+
+CREATE TABLE Batch ( BatchId INT PRIMARY KEY, BatchName VARCHAR(50) );
+
+CREATE TABLE StudentStatus ( StatusId INT PRIMARY KEY, StatusDesc VARCHAR(50) );
+
+drop table Department
+drop table Course 
+drop table Batch
+drop table StudentStatus
+/* 09*/
+
+INSERT INTO  Department VALUES  (1,'CSE'),(2,'CSE'),(3,'IT'),(4,'CSE');
+INSERT INTO Course VALUES  (10,'CSE'),(11,'IT'),(12,'ECE'),(13,'Civil');
+INSERT INTO  Batch VALUES  (100,'CSE'),(102,'IT'),(103,'ECE'),(104,'EE');
+INSERT INTO  StudentStatus VALUES (1001,'PRESENT'),(1002,'NOT PRESENT'),(1003,'PRESENT'),(1004,'PRESENT');
+
+select *from Department
+select *from Course
+select*from Batch
+select *from StudentStatus
+/*
+INSERT INTO Department (DeptId, DeptName)
+VALUES
+    (1, 'CSE'),
+    (2, 'ECE'),
+    (3, 'Mechanical'),
+    (4, 'Civil');
+*/
+
+/* 10*/
+Truncate table Student;
+INSERT INTO Student VALUES  (3123, 'Alok raj', '123 Main St', 1234567890, 'aohn.doe@example.com', '1995-01-15', '2020-09-01', '2024-05-15','123 Main St', 1, 10, 100, 1000, 1234567890123456)
+INSERT INTO Student VALUES  (3124, 'Sayan', '123 Main St', 1234567892, 'johy.doe@example.com', '1995-01-15', '2020-09-01', '2024-05-15','123 Main St', 2, 11, 103, 1002, 1234567890123457)
+INSERT INTO Student VALUES  (3125, 'Prem', '123 Main St', 1234567894, 'jorn.doe@example.com', '1995-01-15', '2020-09-01', '2024-05-15','123 Main St', 1, 12, 102, 1002, 1234567890123458)
+INSERT INTO Student VALUES  (3140, 'Sachin', '123 Main St', 1234567790, 'jothn.doe@example.com', '1995-01-15', '2020-09-01', '2024-05-15','123 Main St', 3, 13, 100, 1002, 1234567890123459)
+INSERT INTO Student VALUES  (3121, 'vatsal', '123 Main St', 1234567990, 'joxhn.doe@example.com', '1995-01-15', '2020-09-01', '2024-05-15','123 Main St', 4, 12, 100, 1003, 1234567890128460)
+INSERT INTO Student VALUES  (3141, 'Diraj', '123 Main St', 1234567820, 'jpohn.doe@example.com', '1995-01-15', '2020-09-01', '2024-05-15','123 Main St', 2, 12, 102, 1002, 1234567890123461)
+INSERT INTO Student VALUES  (3099, 'Anshu', '123 Main St', 1234567897, 'johqn.doe@example.com', '1995-01-15', '2020-09-01', '2024-05-15','123 Main St', 1, 11, 103, 1000, 1234567890123462)
+INSERT INTO Student VALUES  (3129, 'prteek', '123 Main St', 1234567820, 'johen.doe@example.com', '1995-01-15', '2020-09-01', '2024-05-15','123 Main St', 4, 11, 100, 1000, 1234567890123463)
+INSERT INTO Student VALUES  (3128, 'Hunny', '123 Main St', 1234567891, 'johnx.doe@example.com', '1995-01-15', '2020-09-01', '2024-05-15','123 Main St', 3, 11, 100, 1000, 1234567890123464)
+INSERT INTO Student VALUES  (3145, 'John Doe', '123 Main St', 1234569890, 'jonhn.doe@example.com', '1995-01-15', '2020-09-01', '2024-05-15','123 Main St', 2, 11, 102, 1002, 1234567890123465)
+/* 11*/
+
+
+ALTER TABLE Student
+ADD studenttype CHAR(1)NOT NULL DEFAULT 'R';
+
+
+
+ALTER TABLE Student
+ADD CONSTRAINT CK_Student_StudentType CHECK (studenttype IN ('R', 'P', 'C'));
+
+

@@ -1,0 +1,71 @@
+use alokraj;
+CREATE TABLE DEPARTMENT_OFF (
+  DeptID INT PRIMARY KEY,
+  Name VARCHAR(50),
+  Strength INT,
+  Budget DECIMAL(10, 2)
+);
+
+-- Create the OFFICER table
+CREATE TABLE OFFICER (
+  EmpID INT PRIMARY KEY,
+  Name VARCHAR(50),
+  Salary DECIMAL(10, 2),
+  DeptID INT,
+  Phone VARCHAR(15),
+  FOREIGN KEY (DeptID) REFERENCES DEPARTMENT_OFF(DeptID)
+);
+
+select *from 
+INSERT INTO DEPARTMENT_OFF (DeptID, Name, Strength, Budget)
+VALUES
+  (1, 'HR', 3, 100000),
+  (2, 'Sales', 4, 150000),
+  (3, 'Marketing', 2, 120000),
+  (4, 'IT', 3, 130000);
+
+-- Insert data into the OFFICER table
+INSERT INTO OFFICER (EmpID, Name, Salary, DeptID, Phone)
+VALUES
+  (1, 'Alok', 60000, 1, '555-111-1111'),
+  (2, 'sachin', 55000, 2, '555-222-2222'),
+  (3, 'vatsal', 62000, 2, '555-333-3333'),
+  (4, 'Sunil', 58000, 1, '555-444-4444'),
+  (5, 'Smith', 56000, 3, '555-555-5555'),
+  (6, 'Sarah', 61000, 3, '555-666-6666'),
+  (7, 'Somen', 59000, 1, '555-777-7777'),
+  (8, 'Susan', 63000, 4, '555-888-8888'),
+  (9, 'Sayan', 54000, 4, '555-999-9999'),
+  (10, 'Steven', 57000, 2, '555-101-0101');
+
+SELECT Name
+FROM OFFICER
+WHERE LEN(Name) = 5 AND Name LIKE 'Su%';
+
+SELECT o.Name
+FROM OFFICER o
+INNER JOIN DEPARTMENT_OFF d ON o.DeptID = d.DeptID
+WHERE d.Name = 'Sales';
+
+SELECT Name
+FROM DEPARTMENT_OFF
+WHERE Strength = (SELECT MAX(Strength) FROM DEPARTMENT_OFF);
+
+SELECT o.Name
+FROM OFFICER o
+INNER JOIN DEPARTMENT_OFF d ON o.DeptID = d.DeptID
+WHERE d.Strength = (SELECT MAX(Strength) FROM DEPARTMENT_OFF);
+
+SELECT o.Name
+FROM OFFICER o
+INNER JOIN DEPARTMENT_OFF d ON o.DeptID = d.DeptID
+WHERE d.Strength < (SELECT Strength FROM DEPARTMENT_OFF WHERE Name = 'Sales')
+   OR d.Strength < (SELECT Strength FROM DEPARTMENT_OFF WHERE Name = 'Purchase');
+
+
+UPDATE DEPARTMENT_OFF
+SET Strength = 20
+WHERE DeptID = (SELECT DeptID FROM OFFICER WHERE Name = 'Sachin');
+
+select *from DEPARTMENT_OFF
+select *from OFFICER

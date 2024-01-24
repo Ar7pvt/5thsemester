@@ -1,0 +1,26 @@
+
+SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+
+BEGIN TRY
+    BEGIN TRANSACTION;
+
+    SELECT Name
+    FROM Student
+    WHERE StudentId = 23;
+
+    UPDATE ExamMarks
+    SET Marks = Marks + 10; 
+
+    SELECT Name
+    FROM Student
+    WHERE StudentId = 23;
+
+    COMMIT;
+END TRY
+BEGIN CATCH
+
+    IF @@TRANCOUNT > 0
+        ROLLBACK;
+
+    PRINT ERROR_MESSAGE();
+END CATCH;

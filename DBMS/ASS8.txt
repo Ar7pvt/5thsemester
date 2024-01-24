@@ -1,0 +1,44 @@
+CREATE TABLE StudentBkup (
+    StudentBkupId INT IDENTITY(1,1) PRIMARY KEY,
+    Name VARCHAR(100),
+    Address VARCHAR(200),
+    Phone NUMERIC(10,0),
+    Email VARCHAR(50),
+    DateOfBirth DATE,
+    DateOfAdmission DATE,
+    DateOfPassing DATE,
+    DeptId INT,
+    CourseId INT,
+    BatchId INT,
+    StatusId INT
+);
+CREATE TABLE ExamMarksNew (
+    ExamMarksNewId INT IDENTITY(1,1) PRIMARY KEY,
+    StudentId INT,
+    ExamSubject VARCHAR(50),
+    Marks INT
+);
+
+CREATE TRIGGER tr_Student_AfterDeleteUpdate
+ON Student
+AFTER DELETE, UPDATE
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    INSERT INTO StudentBkup (Name, Address, Phone, Email, DateOfBirth, DateOfAdmission, DateOfPassing, DeptId, CourseId, BatchId, StatusId)
+    SELECT Name, Address, Phone, Email, DateOfBirth, DateOfAdmission, DateOfPassing, DeptId, CourseId, BatchId, StatusId
+    FROM deleted;
+END;
+
+CREATE TRIGGER tr_ExamMarks_InsteadOfUpdateInsert
+ON ExamMarks
+INSTEAD OF UPDATE, INSERT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    INSERT INTO ExamMarksNew (StudentId, ExamSubject, Marks)
+    SELECT StudentId, ExamSubject, Marks
+    FROM inserted;
+END;
